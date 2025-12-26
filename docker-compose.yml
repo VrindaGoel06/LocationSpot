@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   ntfy:
     image: binwiederhier/ntfy
@@ -20,3 +22,18 @@ services:
         start_period: 40s
     restart: unless-stopped
     init: true # needed, if healthcheck is used. Prevents zombie processes
+
+  otrecorder:
+    image: owntracks/recorder
+    ports:
+      - 8083:8083
+    volumes:
+      - config:/config
+      - store:/store
+    restart: unless-stopped
+    environment:
+      OTR_PORT: 0
+
+volumes:
+  store:
+  config:
